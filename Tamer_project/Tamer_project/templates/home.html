@@ -1,37 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/style.css">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal Viewer</title>
+
+<script src="https://cdn.plot.ly/plotly-3.3.0.min.js"></script>
+
+<link rel="stylesheet" href="../static/style.css">
 </head>
+
 <body>
-    <div id="bar">
-        <p>Signal Processing</p>
-        <div>
 
-        <a href="/">home</a>
-        <a href="/info">info</a>
-        </div>
-    </div>
-    <div id = "viewer-box">
+<div class="topbar">
+    <div class="logo">Signal Viewer</div>
+    <button class="home-btn" onclick="goHome()">Home</button>
+</div>
+
+<div class="container">
+
+    <div class="card">
         <div id="viewer"></div>
-        <div id = "buttons">
-                {% csrf_token %}
-                <input type="file" id ="file_input" name = "file">
-                <button onclick="uploadAndPlot()">Plot</button>    
-                <button onclick="startAnimation()">start</button>
-                <button onclick="stopAnimation()">stop</button>
-                
-        </div>
-        
     </div>
-    
 
-    
+    <div class="card">
+        <div id="controls">
 
+            <div class="control-row">
+                <input type="file" id="file_input" accept=".csv,.json">
+                <button onclick="rewind()">⏮</button>
+                <button class="play-btn" onclick="playPause()">▶ / ⏸</button>
+                <button onclick="stopAnimation()">⏹</button>
+                <button onclick="fastForward()">⏭</button>
+            </div>
+
+            <div class="control-row">
+                <label>Speed</label>
+                <input type="range" id="speedSlider" min="5" max="200" value="30">
+                <span id="speedValue">30 ms</span>
+            </div>
+
+            <div class="control-row">
+                <label>Window Size:</label>
+                <input type="range" id="windowSlider" min="50" max="1000" value="200">
+                <span id="windowValue">200 pts</span>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Channels</h3>
+        <div id="channel-controls"></div>
+    </div>
+
+</div>
+
+ <script src = "../static/javascript.js"></script>
 </body>
-<script src="https://cdn.plot.ly/plotly-3.3.0.min.js" charset="utf-8"></script>
-<script src = "../static/javascript.js"></script>
 </html>
