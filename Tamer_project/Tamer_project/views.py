@@ -9,12 +9,24 @@ def home(request):
     
 
     return render(request , "../templates/home.html")
-
 @csrf_exempt  
 def load_signal(request):
-    df = pd.read_csv(request.FILES["file"])  # time, value
+    import pandas as pd
+
+    df = pd.read_csv(request.FILES["file"])  
+    time = df.iloc[:, 0].tolist()
+
+    if df.shape[1] == 2:
+        # single-channel
+        signal = df.iloc[:, 1].tolist()
+    else:
+        # multi-channel
+        signal = {}
+        for col in df.columns[1:]:
+            signal[col] = df[col].tolist()
+
     data = {
-        "time": df["t"].tolist(),
-        "signal": df["v3"].tolist()
+        "time": time,
+        "signal": signal
     }
     return JsonResponse(data)
